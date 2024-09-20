@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área Interna</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="logout.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Portal do Saber</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Página Principal</a></li>
+                <li><a href="about.html">Sobre Nós</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="internal-container">
+        <h2>Bem-vindo à Área Interna</h2>
+        <button id="logoutButton" class="button">Logout</button>
+    </main>
+
+    <footer>
+        <p>© 2024 Sebo Online. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        if (localStorage.getItem('loggedIn') !== 'true') {
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
