@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Details</title>
     <link rel="stylesheet" href="styles.css">
-
+    <script src="books.js"></script>
 </head>
 <body>
     <header>
@@ -17,16 +17,24 @@
             </ul>
         </nav>
     </header>
-    <main>
-        <h2>Crer ou Não Crer</h2>
-        <img src="Livro2.jpg" alt="Capa de Livro 2">
-        <p>Autor: Leandro Karnal</p>
-        <p>Preço: R$30.00</p>
-        <p>Descrição: "Crer ou Não Crer" de Leandro Karnal. Em uma conversa franca entre Leandro Karnal e o padre Fábio de Melo, o livro discute temas como fé, religiosidade e filosofia, oferecendo ao leitor diferentes perspectivas sobre a crença e o ceticismo em uma análise aberta e enriquecedora.</p>
-        <!-- Add more details about the book -->
+
+    <main id="book-details">
+        <!-- Book details will be dynamically inserted here -->
+        <div class="book-item">
+            <img id="book-cover" src="" alt="Book Cover" style="width: 300px;">
+            <div class="book-details">
+                <h2 id="book-title"></h2>
+                <p id="book-author"></p>
+                <p id="book-price"></p>
+                <p id="book-description"></p>
+            </div>
+        </div>
     </main>
+
     <footer>
         <p>&copy; 2024 Portal do Saber. Todos os direitos reservados.</p>
     </footer>
+
+    <script>populateBookDetails();</script>
 </body>
 </html>

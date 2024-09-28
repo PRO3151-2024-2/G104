@@ -51,14 +51,16 @@ main {
     flex: 1;
     padding: 20px;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 20px;
-    align-items: flex-start;
 }
 
 /* Estilo da imagem do livro */
 main img {
-    max-width: 300px;
+    max-width: 500px;
     height: auto;
+    margin-bottom: 20px;
 }
 
 /* Justificar os parágrafos apenas na página Sobre Nós */
@@ -68,7 +70,8 @@ main img {
 
 /* Estilo para o texto ao lado da imagem */
 .book-details {
-    max-width: 600px;
+    max-width: 800px;
+    text-align: center;
 }
 
 /* Justificar o texto da descrição */
