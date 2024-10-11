@@ -157,3 +157,26 @@ footer {
         width: 90%;
     }
 }
+
+@media (max-width: 600px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    th, td {
+        text-align: right;
+        border: none;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    th::before, td::before {
+        position: absolute;
+        left: 10px;
+        white-space: nowrap;
+    }
+
+    th::before {
+        content: attr(data-title);
+    }
+}
