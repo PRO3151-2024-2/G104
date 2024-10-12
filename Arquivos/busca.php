@@ -1,11 +1,14 @@
-<!-- busca.html -->
+<!-- busca.php -->
 <?php
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "Lab08";
 
+// Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar la conexión
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
@@ -13,7 +16,11 @@ if ($conn->connect_error) {
 $search = "";
 if (isset($_POST["search"])) {
     $search = $conn->real_escape_string($_POST["search"]);
-    $sql = "SELECT * FROM livros WHERE titulo LIKE '%$search%' OR autor LIKE '%$search%'";
+    // Modificamos la consulta SQL para incluir un JOIN con la tabla pre__os
+    $sql = "SELECT livros.id, livros.titulo, livros.autor, pre__os.preco 
+            FROM livros
+            LEFT JOIN pre__os ON livros.id = pre__os.id_livro 
+            WHERE livros.titulo LIKE '%$search%' OR livros.autor LIKE '%$search%'";
     $result = $conn->query($sql);
 }
 ?>
@@ -28,7 +35,7 @@ if (isset($_POST["search"])) {
 </head>
 <body>
     <h1>Buscar Libros</h1>
-    <form method="POST" action="busca.html">
+    <form method="POST" action="busca.php">
         <input type="text" name="search" placeholder="Ingrese título o autor" value="<?php echo htmlspecialchars($search); ?>">
         <button type="submit">Buscar</button>
     </form>
@@ -47,7 +54,7 @@ if (isset($_POST["search"])) {
                 echo "<td>" . $row["id"] . "</td>";
                 echo "<td>" . $row["titulo"] . "</td>";
                 echo "<td>" . $row["autor"] . "</td>";
-                echo "<td>R$" . $row["precio"] . "</td>";
+                echo "<td>R$" . $row["preco"] . "</td>";
                 echo "</tr>";
             }
         } else {

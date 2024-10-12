@@ -1,18 +1,22 @@
-<!-- livros_mais_vendidos.html -->
+<!-- livros_mais_vendidos.php -->
 <?php
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "Lab08";
 
+// Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar la conexión
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-$sql = "SELECT livros.id, livros.titulo, livros.autor, SUM(vendas.cantidad) as total_vendido
+// Ajustar la consulta para contar las ventas de cada libro
+$sql = "SELECT livros.id, livros.titulo, livros.autor, COUNT(vendas.id) as total_vendido
         FROM vendas
-        INNER JOIN livros ON vendas.id_libro = livros.id
+        INNER JOIN livros ON vendas.id_livro = livros.id
         GROUP BY livros.id
         ORDER BY total_vendido DESC
         LIMIT 5";

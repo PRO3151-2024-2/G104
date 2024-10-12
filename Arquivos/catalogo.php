@@ -1,16 +1,22 @@
-<!-- catalogo.html -->
+<!-- catalogo.php -->
 <?php
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "Lab08";
 
+// Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar la conexión
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM livros";
+// Consulta para obtener todos los libros y sus precios
+$sql = "SELECT livros.id, livros.titulo, livros.autor, pre__os.preco
+        FROM livros
+        LEFT JOIN pre__os ON livros.id = pre__os.id_livro";
 $result = $conn->query($sql);
 ?>
 
@@ -24,7 +30,7 @@ $result = $conn->query($sql);
 </head>
 <body>
     <h1>Catálogo de Libros</h1>
-    <table>
+    <table border="1">
         <tr>
             <th>ID</th>
             <th>Título</th>
@@ -38,7 +44,7 @@ $result = $conn->query($sql);
                 echo "<td>" . $row["id"] . "</td>";
                 echo "<td>" . $row["titulo"] . "</td>";
                 echo "<td>" . $row["autor"] . "</td>";
-                echo "<td>R$" . $row["precio"] . "</td>";
+                echo "<td>R$" . $row["preco"] . "</td>";
                 echo "</tr>";
             }
         } else {
@@ -49,3 +55,4 @@ $result = $conn->query($sql);
     <?php $conn->close(); ?>
 </body>
 </html>
+
