@@ -34,7 +34,20 @@ if (isset($_POST["search"])) {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Buscar Libros</h1>
+    <header>
+        <h1>Portal do Saber</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Página Principal</a></li>
+                <li><a href="about.html">Sobre Nós</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="http://localhost/LAb08/catalogo.php">Catálogo</a></li> <!-- Nuevo enlace -->
+                <li><a href="http://localhost/LAb08/livros_mais_vendidos.php">Livros Mais Vendidos</a></li> <!-- Nuevo enlace -->
+                <li><a href="http://localhost/LAb08/busca.php">Localizar Livro</a></li> <!-- Nuevo enlace -->
+            </ul>
+        </nav>
+    </header>
+    <h2>Buscar Libros</h2>
     <form method="POST" action="busca.php">
         <input type="text" name="search" placeholder="Ingrese título o autor" value="<?php echo htmlspecialchars($search); ?>">
         <button type="submit">Buscar</button>
