@@ -38,12 +38,12 @@ if (isset($_POST["search"])) {
         <h1>Portal do Saber</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Página Principal</a></li>
+            <li><a href="index.html">Página Principal</a></li>
                 <li><a href="about.html">Sobre Nós</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="http://localhost/LAb08/catalogo.php">Catálogo</a></li> <!-- Nuevo enlace -->
-                <li><a href="http://localhost/LAb08/livros_mais_vendidos.php">Livros Mais Vendidos</a></li> <!-- Nuevo enlace -->
-                <li><a href="http://localhost/LAb08/busca.php">Localizar Livro</a></li> <!-- Nuevo enlace -->
+                <li><a href="http://localhost/lab09/login.php">Login</a></li>
+                <li><a href="http://localhost/lab09/catalogo.php">Catálogo</a></li> <!-- Nuevo enlace -->
+                <li><a href="http://localhost/lab09/livros_mais_vendidos.php">Livros Mais Vendidos</a></li> <!-- Nuevo enlace -->
+                <li><a href="http://localhost/lab09/busca.php">Localizar Livro</a></li> <!-- Nuevo enlace -->
             </ul>
         </nav>
     </header>
