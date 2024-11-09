@@ -1,3 +1,56 @@
+<?php
+session_start();
+include 'connection.php';
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Exibe os valores recebidos para depuração
+    var_dump($username, $password);
+
+    // Inclua aspas invertidas (`) ao redor de `username` se for uma palavra reservada do banco de dados
+    $sql = "SELECT id, `username`, password, role FROM users WHERE `username` = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
+
+        // Exibe o usuário encontrado
+        var_dump($user);
+
+        if ($password === $user['password']) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username']; // Corrigido para usar a chave correta
+            $_SESSION['role'] = $user['role'];
+
+            // Verifica qual redirecionamento será feito
+            if ($_SESSION['role'] == 'admin') {
+                //echo "Redirecionando para admin/admin_home.php";
+                header("Location: admin/admin_home.php");
+                exit;
+            } else {
+                //echo "Redirecionando para users/users_home.php";
+                header("Location: users/users_home.php");
+                exit;
+            }
+        } else {
+            echo 'Usuário ou senha incorretos.';
+        }
+    } else {
+        echo 'Usuário ou senha incorretos.';
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,50 +65,20 @@
         <h1>Portal do Saber</h1>
         <nav>
             <ul>
-            <li><a href="index.html">Página Principal</a></li>
-                <li><a href="about.html">Sobre Nós</a></li>
-                <li><a href="http://localhost/lab09/login.php">Login</a></li>
-                <li><a href="http://localhost/lab09/catalogo.php">Catálogo</a></li> <!-- Nuevo enlace -->
-                <li><a href="http://localhost/lab09/livros_mais_vendidos.php">Livros Mais Vendidos</a></li> <!-- Nuevo enlace -->
-                <li><a href="http://localhost/lab09/busca.php">Localizar Livro</a></li> <!-- Nuevo enlace -->
+            <li><a href="http://localhost/PRO3151/Lab11/index.php">Página Principal</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/about.html">Sobre Nós</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/login.php">Login</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/catalogo.php">Catálogo</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/busca.php">Localizar Livro</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/users/carrinho.php">Carrinho</a></li>
             </ul>
         </nav>
     </header>
 
     <main class="login-container">
         <h2>Login</h2>
-        <?php
-        session_start();
-        include 'connection.php';
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-
-            // Consulta SQL para verificar el nombre de usuario y contraseña
-            $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-            $result = $conn->query($sql);
-
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                $_SESSION['username'] = $row['username'];
-                $_SESSION['role'] = $row['role'];
-
-                // Redirigir según el rol del usuario
-                if ($_SESSION['role'] == 'admin') {
-                    header("Location: admin/admin_home.php");
-                } else {
-                    header("Location: users/users_home.php");
-                }
-            } else {
-                $error = "Usuario o contraseña inválido";
-            }
-        }
-        $conn->close();
-        ?>
-
         <!-- Formulario de login -->
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+        <form id="loginForm" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
             <label for="username">Usuário:</label><br>
             <input type="text" id="username" name="username" required><br><br>
             <label for="password">Senha:</label><br>
@@ -63,7 +86,8 @@
             <button type="submit" class="button">Entrar</button>
         </form>
 
-        <!-- Mostrar mensaje de error, si existe -->
+        <p id="errorMessage" style="color: red;"></p>
+
         <?php if (isset($error)): ?>
             <div id="errorMessage" class="error-message">
                 <?php echo $error; ?>

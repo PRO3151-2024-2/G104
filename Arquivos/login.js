@@ -1,16 +1,10 @@
-document.getElementById('loginForm').addEventListener('submit', function (event) {
-    event.preventDefault();
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('loginForm');
 
-    const validUsername = 'admin';
-    const validPassword = '1234';
-
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    if (username === validUsername && password === validPassword) {
-        localStorage.setItem('loggedIn', 'true');
-        window.location.href = 'internal.html';
-    } else {
-        document.getElementById('errorMessage').textContent = 'Usuário ou senha incorretos.';
+    if (form) {
+        form.addEventListener('submit', function () {
+            // Código simplificado sem apagar mensagens de erro
+            console.log('Formulário de login enviado.');
+        });
     }
 });

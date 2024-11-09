@@ -1,91 +1,55 @@
-const books = [
-    {
-        title: "Por Que Fazemos o Que Fazemos?",
-        author: "Mario Sergio Cortella",
-        price: "R$40,00",
-        image: "capas/Livro1.jpg",
-        description: "Por que fazemos o que fazemos? de Mario Sergio Cortella aborda a busca por propósito e significado no trabalho e na vida...",
-    },
-    {
-        title: "Crer ou Não Crer",
-        author: "Leandro Karnal",
-        price: "R$30,00",
-        image: "capas/Livro2.jpg",
-        description: "Crer ou Não Crer de Leandro Karnal. Em uma conversa franca entre Leandro Karnal e o padre Fábio de Melo...",
-    },
-    {
-        title: "Filosofia Para Corajosos",
-        author: "Luiz Felipe Pondé",
-        price: "R$40,00",
-        image: "capas/Livro3.jpg",
-        description: "Filosofia Para Corajosos de Luiz Felipe Pondé. Pondé aborda a filosofia de forma provocativa e acessível...",
-    },
-    {
-        title: "O Sofrimento é Opcional",
-        author: "Monja Coen",
-        price: "R$40,00",
-        image: "capas/Livro4.jpg",
-        description: "O Sofrimento é Opcional de Monja Coen. Este livro traz ensinamentos da Monja Coen sobre a importância de encontrar paz...",
-    },
-    {
-        title: "A Mentalidade Mamba",
-        author: "Kobe Bryant",
-        price: "R$140,00",
-        image: "capas/Livro5.jpg",
-        description: "A Mentalidade Mamba de Kobe Bryant: Um livro inspirador em que Kobe Bryant compartilha sua mentalidade...",
+// Função para buscar os livros do arquivo PHP
+async function fetchBooks() {
+    try {
+        const response = await fetch('getBooks.php'); // Faz a requisição para o arquivo PHP
+        if (!response.ok) {
+            throw new Error('Erro ao buscar dados dos livros');
+        }
+        const books = await response.json(); // Converte a resposta em JSON
+        return books;
+    } catch (error) {
+        console.error('Erro:', error);
+        return []; // Retorna um array vazio em caso de erro
     }
-  ];
-  
-  // Función para poblar la tabla en index.html
-  function populateTable() {
-    const table = document.querySelector('table');
-    table.innerHTML = `
-        <tr>
-            <th>Book</th>
-            <th>Author</th>
-            <th>Price</th>
-        </tr>
-    `;
-  
-    books.forEach((book, index) => {
-        const row = `
-            <tr>
-                <td><a href="book.html?bookIndex=${index}">${book.title}</a></td>
-                <td>${book.author}</td>
-                <td>${book.price}</td>
-            </tr>
-        `;
-        table.innerHTML += row;
-    });
-  }
-  
-  function getBookIndexFromUrl() {
+}
+
+// Função para obter o bookId da URL
+function getBookIdFromUrl() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    return parseInt(urlParams.get('bookIndex'));
-  }
-  
-  // Función para poblar los detalles del libro en book.html
-  function populateBookDetails() {
-    const bookIndex = getBookIndexFromUrl();
-    if (isNaN(bookIndex) || bookIndex < 0 || bookIndex >= books.length) {
-        document.getElementById('book-details').innerHTML = "<p>Book not found.</p>";
-    } else {
-        const book = books[bookIndex];
-        if (book) {
-            const bookDetails = `
-                <div class="book-item">
-                    <h2>${book.title}</h2>
-                    <img id="book-cover" src="${book.image}" alt="${book.title} Cover" style="max-width: 500px; height: auto; margin-bottom: 20px;">
-                    <p><strong>Author:</strong> ${book.author}</p>
-                    <p><strong>Price:</strong> ${book.price}</p>
-                    <p><strong>Description:</strong> ${book.description}</p>
-                </div>
-            `;
-            document.getElementById('book-details').innerHTML = bookDetails;
-        } else {
-            document.getElementById('book-details').innerHTML = "<p>Book not found.</p>";
-        }
+    return urlParams.get('bookId'); // Retorna o bookId da URL
+}
+
+// Função para exibir os detalhes de um livro específico
+async function populateBookDetails() {
+    const bookId = parseInt(getBookIdFromUrl()); // Converte o bookId da URL para número
+    if (isNaN(bookId)) {
+        document.getElementById('book-details').innerHTML = "<p>ID do livro inválido.</p>";
+        return;
     }
-  }
-  
+
+    const books = await fetchBooks(); // Busca todos os livros do banco de dados
+
+    // Encontra o livro que corresponde ao bookId
+    const book = books.find(b => parseInt(b.id) === bookId);
+
+    if (book) {
+        // Atualiza o conteúdo da página com os detalhes do livro
+        document.getElementById('book-title').innerText = book.titulo;
+        document.getElementById('book-author').innerText = `Autor: ${book.autor}`;
+        document.getElementById('book-price').innerText = `Preço: ${book.preco}`;
+        document.getElementById('book-description').innerText = book.descricao;
+        document.getElementById('book-cover').src = book.capa;
+        document.getElementById('book-cover').src = `http://localhost/PRO3151/Lab11/${book.capa}.jpg`;  // Atribui o caminho da capa ao elemento de imagem
+        document.getElementById('book-cover').alt = `${book.titulo} Cover`;
+        document.getElementById('book-cover').onerror = function() {    // Verifica se a imagem falhou ao carregar e exibe uma imagem alternativa se necessário
+            this.src = 'http://localhost/PRO3151/Lab11/capas/default.jpg'; // Caminho de uma imagem padrão (adicionar)
+            this.alt = 'Imagem não disponível';
+        };        
+    } else {
+        document.getElementById('book-details').innerHTML = "<p>Livro não encontrado.</p>";
+    }
+}
+
+// Chama a função para exibir os detalhes quando a página é carregada
+populateBookDetails();

@@ -12,18 +12,17 @@
         <h1>Portal do Saber</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Página Principal</a></li>
-                <li><a href="about.html">Sobre Nós</a></li>
-                <li><a href="http://localhost/lab09/login.php">Login</a></li>
-                <li><a href="http://localhost/lab09/catalogo.php">Catálogo</a></li> <!-- Nuevo enlace -->
-                <li><a href="http://localhost/lab09/livros_mais_vendidos.php">Livros Mais Vendidos</a></li> <!-- Nuevo enlace -->
-                <li><a href="http://localhost/lab09/busca.php">Localizar Livro</a></li> <!-- Nuevo enlace -->
+                <li><a href="http://localhost/PRO3151/Lab11/index.php">Página Principal</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/about.html">Sobre Nós</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/login.php">Login</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/catalogo.php">Catálogo</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/busca.php">Localizar Livro</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/users/carrinho.php">Carrinho</a></li>
             </ul>
         </nav>
     </header>
 
     <main id="book-details">
-        <!-- Book details will be dynamically inserted here -->
         <div class="book-item">
             <img id="book-cover" src="" alt="Book Cover" style="width: 300px;">
             <div class="book-details">
@@ -32,8 +31,46 @@
                 <p id="book-price"></p>
                 <p id="book-description"></p>
             </div>
+            <button id="comprar-btn">Comprar</button>
         </div>
     </main>
+
+    <script>
+        document.getElementById('comprar-btn').addEventListener('click', async () => {
+            const bookId = parseInt(getBookIdFromUrl()); // Função que captura o ID do livro da URL
+            if (isNaN(bookId)) {
+                alert('ID do livro inválido.');
+                return;
+            }
+        
+            try {
+                const response = await fetch('users/add_to_cart.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ bookId }) // Envia o ID do livro em formato JSON
+                });
+
+                if (!response.ok) {
+                    // Se a resposta não for bem-sucedida, lança um erro para cair no bloco catch
+                    throw new Error('Erro na resposta do servidor');
+                    }
+        
+                const result = await response.json();
+                if (result.success) {
+                    alert('Livro adicionado ao carrinho!');
+                    window.location.href = 'users/carrinho.php'; // Redireciona para a página do carrinho
+                } else {
+                    alert('Erro ao adicionar o livro ao carrinho: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao adicionar o livro ao carrinho.');
+            }
+        });
+    </script>
+           
 
     <footer>
         <p>&copy; 2024 Portal do Saber. Todos os direitos reservados.</p>

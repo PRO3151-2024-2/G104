@@ -1,14 +1,11 @@
-<!-- catalogo.php -->
 <?php
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "Lab08";
+$dbname = "Lab11";
 
-// Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar la conexión
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
@@ -33,19 +30,18 @@ $result = $conn->query($sql);
         <h1>Portal do Saber</h1>
         <nav>
             <ul>
-            <li><a href="index.html">Página Principal</a></li>
-                <li><a href="about.html">Sobre Nós</a></li>
-                <li><a href="http://localhost/lab09/login.php">Login</a></li>
-                <li><a href="http://localhost/lab09/catalogo.php">Catálogo</a></li> <!-- Nuevo enlace -->
-                <li><a href="http://localhost/lab09/livros_mais_vendidos.php">Livros Mais Vendidos</a></li> <!-- Nuevo enlace -->
-                <li><a href="http://localhost/lab09/busca.php">Localizar Livro</a></li> <!-- Nuevo enlace -->
+            <li><a href="http://localhost/PRO3151/Lab11/index.php">Página Principal</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/about.html">Sobre Nós</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/login.php">Login</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/catalogo.php">Catálogo</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/busca.php">Localizar Livro</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/users/carrinho.php">Carrinho</a></li>
             </ul>
         </nav>
     </header>
     <h2>Catálogo de Libros</h2>
     <table border="1">
         <tr>
-            <th>ID</th>
             <th>Título</th>
             <th>Autor</th>
             <th>Precio</th>
@@ -54,10 +50,10 @@ $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
                 echo "<tr>";
-                echo "<td>" . $row["id"] . "</td>";
                 echo "<td>" . $row["titulo"] . "</td>";
                 echo "<td>" . $row["autor"] . "</td>";
                 echo "<td>R$" . $row["preco"] . "</td>";
+                echo '<td><a href="book.html?bookId=' . $row['id'] . '"><button>Ver Detalhes</button></a></td>';
                 echo "</tr>";
             }
         } else {

@@ -1,14 +1,11 @@
-<!-- busca.php -->
 <?php
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "Lab08";
+$dbname = "Lab11";
 
-// Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar la conexión
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
@@ -16,7 +13,6 @@ if ($conn->connect_error) {
 $search = "";
 if (isset($_POST["search"])) {
     $search = $conn->real_escape_string($_POST["search"]);
-    // Modificamos la consulta SQL para incluir un JOIN con la tabla pre__os
     $sql = "SELECT livros.id, livros.titulo, livros.autor, pre__os.preco 
             FROM livros
             LEFT JOIN pre__os ON livros.id = pre__os.id_livro 
@@ -38,12 +34,12 @@ if (isset($_POST["search"])) {
         <h1>Portal do Saber</h1>
         <nav>
             <ul>
-            <li><a href="index.html">Página Principal</a></li>
-                <li><a href="about.html">Sobre Nós</a></li>
-                <li><a href="http://localhost/lab09/login.php">Login</a></li>
-                <li><a href="http://localhost/lab09/catalogo.php">Catálogo</a></li> <!-- Nuevo enlace -->
-                <li><a href="http://localhost/lab09/livros_mais_vendidos.php">Livros Mais Vendidos</a></li> <!-- Nuevo enlace -->
-                <li><a href="http://localhost/lab09/busca.php">Localizar Livro</a></li> <!-- Nuevo enlace -->
+            <li><a href="http://localhost/PRO3151/Lab11/index.php">Página Principal</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/about.html">Sobre Nós</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/login.php">Login</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/catalogo.php">Catálogo</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/busca.php">Localizar Livro</a></li>
+                <li><a href="http://localhost/PRO3151/Lab11/users/carrinho.php">Carrinho</a></li>
             </ul>
         </nav>
     </header>

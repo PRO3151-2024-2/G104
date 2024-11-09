@@ -12,7 +12,7 @@ body {
 
 /* Estilo do cabeçalho */
 header {
-    background-color: #4CAF50;
+    background-color: #ef88cd;
     color: white;
     padding: 20px;
     text-align: center;
@@ -96,7 +96,7 @@ th, td {
 }
 
 th {
-    background-color: #4CAF50;
+    background-color: #ef88cd;
     color: white;
 }
 
@@ -140,7 +140,7 @@ footer {
 .login-container .button {
     width: 100%;
     padding: 10px;
-    background-color: #4CAF50;
+    background-color: #ef88cd;
     color: white;
     border: none;
     border-radius: 4px;
@@ -148,7 +148,7 @@ footer {
 }
 
 .login-container .button:hover {
-    background-color: #45a049;
+    background-color: #ef88cd;
 }
 
 /* Responsividade */
@@ -202,7 +202,7 @@ footer {
 /* Estilo para el botón de logout */
 .admin-container .button {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #ef88cd;
     color: white;
     border: none;
     border-radius: 4px;
@@ -211,7 +211,7 @@ footer {
 }
 
 .admin-container .button:hover {
-    background-color: #45a049;
+    background-color: #ef88cd;
 }
 
 /* Estilo responsivo para admin */
@@ -223,7 +223,7 @@ footer {
 
 /* Estilo para la cabecera */
 header {
-    background-color: #4CAF50;
+    background-color: #ef88cd;
     padding: 10px;
     text-align: center;
 }
@@ -235,9 +235,77 @@ header h1 {
 
 /* Estilo para el pie de página */
 footer {
-    background-color: #4CAF50;
+    background-color: #ef88cd;
     padding: 10px;
     text-align: center;
     color: white;
     margin-top: 20px;
+}
+
+
+.styled-table th, .styled-table td {
+    text-align: center;
+    padding: 10px; /* Adiciona espaçamento interno para melhor legibilidade */
+    font-size: 16px; /* Aumenta o tamanho da fonte */
+}
+
+.styled-table th {
+    background-color: #ef88cd; /* Adiciona uma cor de fundo para os cabeçalhos */
+    font-weight: bold; /* Deixa o texto dos cabeçalhos em negrito */
+}
+
+.styled-table img {
+    display: block;
+    margin: 0 auto; /* Centraliza a imagem */
+}
+
+.book-list {
+    display: flex;
+    flex-wrap: wrap; /* Permite que os itens quebrem linha se não couberem */
+    gap: 20px; /* Espaçamento entre os itens */
+    justify-content: center; /* Centraliza os itens na linha */
+}
+
+.book-item {
+    display: flex;
+    flex-direction: column; /* Alinha os detalhes verticalmente */
+    align-items: center; /* Centraliza a imagem e o texto horizontalmente */
+    justify-content: center; /* Garante o alinhamento vertical */
+    width: 200px; /* Largura consistente para cada item */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #ef88cd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.book-item img {
+    display: block; /* Garante que a imagem seja tratada como um bloco */
+    max-width: 100%; /* Evita que a imagem ultrapasse o contêiner */
+    height: auto; /* Mantém a proporção da imagem */
+    margin-bottom: 10px; /* Espaçamento entre a imagem e o texto */
+}
+.book-info h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+    text-align: center;
+}
+
+.book-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .book-item {
+        width: 100%; /* Faz os itens ocuparem a largura total em telas pequenas */
+    }
+
+    .book-list {
+        flex-direction: column; /* Exibe os itens em uma coluna */
+        align-items: center; /* Centraliza os itens */
+    }
 }
