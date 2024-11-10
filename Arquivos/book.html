@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="books.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Portal do Saber</h1>
+        <nav>
+            <ul>
+                <li><a href="http://localhost/PRO3151/Lab12/index.php">Página Principal</a></li>
+                <li><a href="http://localhost/PRO3151/Lab12/about.html">Sobre Nós</a></li>
+                <li><a href="http://localhost/PRO3151/Lab12/login.php">Login</a></li>
+                <li><a href="http://localhost/PRO3151/Lab12/catalogo.php">Catálogo</a></li>
+                <li><a href="http://localhost/PRO3151/Lab12/busca.php">Localizar Livro</a></li>
+                <li><a href="http://localhost/PRO3151/Lab12/users/carrinho.php">Carrinho</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="book-details">
+        <div class="book-item">
+            <img id="book-cover" src="" alt="Book Cover" style="width: 300px;">
+            <div class="book-details">
+                <h2 id="book-title"></h2>
+                <p id="book-author"></p>
+                <p id="book-price"></p>
+                <p id="book-description"></p>
+            </div>
+            <button id="comprar-btn">Comprar</button>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('comprar-btn').addEventListener('click', async () => {
+            const bookId = parseInt(getBookIdFromUrl()); // Função que captura o ID do livro da URL
+            if (isNaN(bookId)) {
+                alert('ID do livro inválido.');
+                return;
+            }
+        
+            try {
+                const response = await fetch('users/add_to_cart.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ bookId }) // Envia o ID do livro em formato JSON
+                });
+
+                if (!response.ok) {
+                    // Se a resposta não for bem-sucedida, lança um erro para cair no bloco catch
+                    throw new Error('Erro na resposta do servidor');
+                    }
+        
+                const result = await response.json();
+                if (result.success) {
+                    alert('Livro adicionado ao carrinho!');
+                    window.location.href = 'users/carrinho.php'; // Redireciona para a página do carrinho
+                } else {
+                    alert('Erro ao adicionar o livro ao carrinho: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao adicionar o livro ao carrinho.');
+            }
+        });
+    </script>
+           
+
+    <footer>
+        <p>&copy; 2024 Portal do Saber. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>populateBookDetails();</script>
+</body>
+</html>
